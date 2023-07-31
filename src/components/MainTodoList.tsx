@@ -27,7 +27,7 @@ function MainTodoList() {
 
   }, [generateIdNumber, todoList]);
 
-  const deleteTodo = React.useCallback((todo: TodoStruct) => {
+  const handleDeleteTodo = React.useCallback((todo: TodoStruct) => {
     const newTodoList = new Map(todoList);
     const newCompletedTodoList = new Map(completedTodoList);
     if (newTodoList.has(todo.id)) {
@@ -52,46 +52,64 @@ function MainTodoList() {
       newCompletedTodoList.delete(todo.id);
     }
     setToDoList(newTodoList);
-    setCompletedTodoList(completedTodoList);
+    setCompletedTodoList(newCompletedTodoList);
 
   }, [completedTodoList, todoList])
 
   const mainDivStyle = {
     display: "flex",
     justifyContent: "center",
-    flexDirection: "column" as any
+    flexDirection: "column" as any,
+    padding: "30px",
   }
 
   const secondaryMainDivStyle = {
     display: "flex",
     justifyContent: "space-between",
-    alignItems: "center",
+    alignItems: "stretch",
     width: "100%",
     maxHeight: "100vh",
-    overflow: "auto"
+    overflow: "auto",
   }
   const divStyle = {
     display: "flex",
-    justifyContent: "center",
+    justifyContent: "start",
+    alignItems: "center",
     flexDirection: "column" as any,
-    width: "100%"
+    width: "100%",
+    padding: "15px",
+    border: "1px solid lightgray",
+    borderRadius: "12px",
+    margin: "10px",
+    minHeight: "100%"
   }
 
   const completedTodoListArr = Array.from(completedTodoList.values());
   const todoListArr = Array.from(todoList.values());
+  console.log(completedTodoList);
+  console.log(todoList);
 
   return (
     <div style={mainDivStyle}>
       <AddTodo addTodo={handleAddTodo}/>
       <div style={secondaryMainDivStyle}>
         <div style={divStyle}>
+          <h3>Todos</h3>
           {/*  Todos */}
-          {todoListArr.map(todo => <SingleTodoLine todo={todo} isChecked={false} onClick={handleCompleteTodo}/>)}
+          {todoListArr.map(todo => <SingleTodoLine
+            key={todo.id}
+            onDeleted={handleDeleteTodo}
+            todo={todo} isChecked={false} onChecked={handleCompleteTodo}/>)}
         </div>
         <div style={divStyle}>
+          <h3>Completed Todos</h3>
           {/*  Completed todos */}
-          {completedTodoListArr.map(todo => <SingleTodoLine todo={todo} isChecked={true}
-                                                            onClick={handleCompleteTodo}/>)}
+          {completedTodoListArr.map(todo =>
+            <SingleTodoLine
+              key={todo.id}
+              onDeleted={handleDeleteTodo}
+              todo={todo} isChecked={true}
+              onChecked={handleCompleteTodo}/>)}
         </div>
       </div>
     </div>

@@ -27,7 +27,9 @@ function AddTodo({addTodo}: Props) {
     display: "flex",
     justifyContent: "center",
     flexDirection: "column" as any,
-    width: "100%"
+    width: "100%",
+    padding: "30px",
+    gap: "15px"
   }
 
   const buttonStyle = {
@@ -35,7 +37,6 @@ function AddTodo({addTodo}: Props) {
     backgroundColor: "black",
     color: "white",
     padding: "5px 15px",
-    margin: "30px",
     textTransform: "capitalize" as any
   }
 
